@@ -1,40 +1,33 @@
 const express = require('express');
 const path = require('path');
 const sequelize = require('./models').sequelize
-const Book = require('./models').Book;
-
+const routes = require('./routes/index');
+const cookieParser = require('cookie-parser');
 
 const app = express();
-const port = 3000
+app.use('/static', express.static('public'));
+const port = 3000;
+const http = require('http');
+const server = http.createServer(app)
+
+// view engine setup
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'pug');
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
+app.use(express.static(path.join(__dirname, 'public')));
+
 
 sequelize.sync()
-    .then(() => {
-        app.listen(port);
-});
-
-app.get('/', (req, res) => {
-  const books = Book.findAll();
-  console.log(books);
-  res.send('Yes man!')
-})
+  .then(() => {
+    server.listen(port);
+    app.use('/', routes);
+  });
 
 
-// /* Handler function to wrap each route. */
-// function asyncHandler(cb){
-//     return async(req, res, next) => {
-//       try {
-//         await cb(req, res, next)
-//       } catch(error){
-//         // Forward error to the global error handler
-//         next(error);
-//       }
-//     }
-//   }
 
-//   router.get('/', asyncHandler(async (req, res) => {
-//     const books = await Book.findAll();
-//     console.log(books.res.json())
-//     //res.render("articles/index", { articles: articles, title: "Sequelize-It!" });
-//   }));
+
 
 

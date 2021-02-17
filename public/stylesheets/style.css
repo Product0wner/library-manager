@@ -66,6 +66,9 @@ tr {
 tr:nth-child(2n) {
   background: #E7E7E7;
 }
+tr:hover {
+  background: #01b189;
+}
 
 td {
   padding: 5px 20px 5px 10px;
