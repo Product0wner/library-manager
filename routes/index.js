@@ -19,7 +19,7 @@ function asyncHandler(cb){
 router.get('/', asyncHandler(async (req, res) => {
     const data = await Book.findAll();
     const books = [];
-    data.map( book => books.push(book.dataValues));
+    data.map( book => books.push(book));
     res.render("index", {books});
 }));
 
@@ -42,7 +42,23 @@ router.post('/new_book', asyncHandler(async (req, res) => {
 }));
 
 router.get('/book/:id/edit', asyncHandler(async (req, res) => {
-  res.render('update-book', {book: {}});
+  const {id} = req.params
+  const books = await Book.findAll();
+  const currentBook = books[id-1];
+  res.render('update-book', {currentBook});
+}));
+
+router.post('/book/update/:id', asyncHandler(async (req, res) => {
+  try {
+    await Book.update(req.body, {
+      where: {
+        title: req.body.title
+      }
+    })
+    res.redirect('/');
+  }catch(error){
+    console.log(error)
+  }
 }));
 
 router.post('/delete_book', asyncHandler(async (req, res) => {

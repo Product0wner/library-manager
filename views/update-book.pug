@@ -4,20 +4,20 @@ block content
 
     h1 Update 
 
-    form(action="/book/update" method="post")
+    form(action=`/book/update/${currentBook.id}` method="post")
         p
             label(for="title") Title
-            input(type="text", name="title")
+            input(type="text", name="title", value=currentBook.title)
         p
             label(for="author") Author
-            input(type="text", name="author")
+            input(type="text", name="author", value=currentBook.author)
         p
             label(for="genre") Genre
-            input(type="text", name="genre")
+            input(type="text", name="genre", value=currentBook.genre)
         p
             label(for="year") Year
-            input(type="number", name="year")
-        input(type="submit")
+            input(type="number", name="year", value=currentBook.year)
+        input(type="submit", value="Update Book")
 
     form(action="/delete_book" method="post")
 
