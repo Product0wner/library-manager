@@ -4,6 +4,14 @@ block content
 
     h1 New Book
     form(action="/new_book" method="post")
+        if errors
+                h2.error Oooops!
+                    ul.error
+                    each error in errors
+                        if error.path === "author"
+                            li Author is required
+                        if error.path === "title"
+                            li Title is required
         p
             label(for="title") Title
             input(type="text", name="title")
