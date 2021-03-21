@@ -15,16 +15,16 @@ block content
                         li Title is required
         p
             label(for="title") Title
-            input(type="text", name="title", value=book.title)
+            input(type="text", name="title", value=book.title, id="title")
         p
             label(for="author") Author
-            input(type="text", name="author", value=book.author)
+            input(type="text", name="author", value=book.author, id="author")
         p
             label(for="genre") Genre
-            input(type="text", name="genre", value=book.genre)
+            input(type="text", name="genre", value=book.genre, id="genre")
         p
             label(for="year") Year
-            input(type="number", name="year", value=book.year)
+            input(type="number", name="year", value=book.year, id="year")
         input(type="submit", value="Update Book")
 
     form(action=`/${book.id}/delete` method="post" onsubmit="return confirm('Do you really want to delete this book?')")

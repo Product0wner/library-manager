@@ -1,7 +1,12 @@
 extends layout.pug
 block content 
 
-    h2 Books
+    h2: a(class="landingPageTitle" href="/") Books
+       
+    form.search(method='get' action=`/books/` class='search')
+      input.search-input(type='text' name='search' placeholder='Title, author etc.')
+      input.button(type='submit' value='Search' id="btn-search")
+
     p: a(href='/new_book') Create New Book
 
     table(style='width:100%', border='1')
@@ -16,3 +21,9 @@ block content
                 td #{book.author}
                 td #{book.genre}
                 td #{book.year}
+        p 
+            while n <= pages
+                if current == n
+                    a(class="button buttonPagination currentPage" href=`/books/pages/${n}`)=n++
+                else 
+                    a(class="button buttonPagination" href=`/books/pages/${n}`)= n++

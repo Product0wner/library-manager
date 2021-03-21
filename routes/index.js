@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const Book = require('../models').Book;
+const { Op } = require ("sequelize");
+
 
 
 /* Handler function to wrap each route. */
@@ -18,8 +20,22 @@ function asyncHandler(cb){
 router.get('/', asyncHandler(async (req, res) => {
     const data = await Book.findAll();
     const books = [];
-    data.map( book => books.push(book));
-    res.render("index", {books});
+    const n = 1
+    const pages = Math.ceil(data.length / 10)
+    const current = 1
+    data.slice([0], [10]).map( book => books.push(book));
+    res.render("index", {books, n, pages, current});
+}));
+
+router.get('/books/pages/:id', asyncHandler(async (req, res) => {
+  const data = await Book.findAll();
+  const books = [];
+  const n = 1
+  const pages = Math.ceil(data.length / 10)
+  const current = req.params.id
+
+  data.slice([(current-1)*10], [current*10]).map( book => books.push(book));
+  res.render("index", {books, n, pages, current});
 }));
 
 router.get('/new_book', asyncHandler(async (req, res) => {
@@ -28,7 +44,6 @@ router.get('/new_book', asyncHandler(async (req, res) => {
 
 router.get('/book/:id/edit', asyncHandler(async (req, res, next) => {
   const book = await Book.findByPk(req.params.id);
-  console.log(book.id);
   if(book) {
     res.render('update-book', {book});
   } else {
@@ -41,7 +56,6 @@ router.get('/book/:id/edit', asyncHandler(async (req, res, next) => {
 
 router.post('/new_book', asyncHandler(async (req, res) => {
   let book;
-  console.log(req.body);
   try {
     book = await Book.create(req.body)
     res.redirect('/');
@@ -85,5 +99,42 @@ router.post('/:id/delete', asyncHandler(async (req, res) => {
     book.destroy();
     res.redirect('/');
 }));
+
+router.get('/books/', asyncHandler(async(req, res, next) => {
+  let { search } = req.query;
+  let books;
   
+  if(search){
+   books = await Book.findAndCountAll({
+    attributes: ['title', 'author', 'genre', 'year'],
+    where:{
+       [Op.or]:  [
+         {
+           title: {
+             [Op.like]: `%${search}%`
+           }
+         },
+         {
+           author: {
+             [Op.like]: `%${search}%`
+           }
+         },
+         {
+           genre:   {
+            [Op.like]: `%${search}%`
+          }
+         },
+         {
+           year:   {
+            [Op.like]: `%${search}%`
+          }
+         }
+       ]
+    } ,
+   })
+} else {
+  res.redirect("/")
+}
+  res.render("index", { books: books.rows });
+}));
 module.exports = router;

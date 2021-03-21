@@ -24,6 +24,22 @@ a.button, input[type=submit] {
   cursor: pointer;
 }
 
+a.button, .buttonPagination {
+  background: white;
+  color: lightgrey;
+  border-style: solid;
+  border-width: 1px;
+  border-color: lightgrey;
+}
+
+a.button.buttonPagination.currentPage{
+  background: white;
+  color: #D8B493;
+  border-style: solid;
+  border-width: 2px;
+  border-color: #D8B493;
+}
+
 form a.button, input[type=submit] {
   margin-left: 140px;
   transition: 0.4s;
@@ -33,9 +49,9 @@ input[type=submit] {
   border: 0;
 }
 
-  a.button:hover, input[type=submit]:hover {
+a.button:hover, input[type=submit]:hover {
     background-color: #01b189;
-  }
+}
 
 p {
   margin: 20px auto;
@@ -52,6 +68,7 @@ h2 {
   border-top: 2px solid #e7e7e7;
   padding-top: 20px;
 }
+
 
 th {
   border-bottom: 2px solid #D8B493;
@@ -97,4 +114,15 @@ input[type=text] {
 
 .error {
   color: rgb(236, 15, 15);
+}
+.search {
+  float:right;
+}
+
+#btn-search{
+  margin-left: 10px;
+}
+
+.landingPageTitle{
+  color: black
 }
