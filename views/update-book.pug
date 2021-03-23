@@ -26,6 +26,7 @@ block content
             label(for="year") Year
             input(type="number", name="year", value=book.year, id="year")
         input(type="submit", value="Update Book")
-
+        p: a(href='/', class="button buttonPagination") Cancel
     form(action=`/${book.id}/delete` method="post" onsubmit="return confirm('Do you really want to delete this book?')")
         input(type="submit", value="Delete Book")
+        

@@ -31,7 +31,9 @@ a.button, .buttonPagination {
   border-width: 1px;
   border-color: lightgrey;
 }
-
+.cancelButton{
+  background: black;
+}
 a.button.buttonPagination.currentPage{
   background: white;
   color: #D8B493;
